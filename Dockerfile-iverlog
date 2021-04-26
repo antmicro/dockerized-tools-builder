@@ -1,0 +1,17 @@
+FROM debian:buster
+RUN apt-get update
+RUN apt-get install -y \
+    make \
+    g++ \
+    bison \
+    flex \
+    gperf \
+    libreadline-dev \
+    ncurses-dev \
+    autoconf \
+    git
+
+WORKDIR /tmp
+RUN git clone https://github.com/steveicarus/iverilog.git iverilog/
+RUN cd iverilog && sh autoconf.sh && ./configure && make -j$(nproc) && make -j$(nproc) check && make -j$(nproc) install
+
