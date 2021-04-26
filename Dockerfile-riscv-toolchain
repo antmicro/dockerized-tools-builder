@@ -1,3 +1,6 @@
 FROM debian:buster
 RUN apt-get update
 RUN apt-get install -y wget xz-utils
+
+RUN mkdir lowrisc-toolchain
+RUN wget -qO- https://github.com/lowRISC/lowrisc-toolchains/releases/download/20210412-1/lowrisc-toolchain-gcc-rv32imc-20210412-1.tar.xz | tar -Jx -C lowrisc-toolchain --strip-components=1
