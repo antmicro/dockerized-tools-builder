@@ -37,5 +37,5 @@ jobs:
         with:
           registry: ghct.io
           username: antmicro
-          passwaord: ${{ github.token }}
+          password: ${{ github.token }}
       - run: docker push ghcr.io/antmicro/${{ matrix.os }}/${{ matrix.image }}
