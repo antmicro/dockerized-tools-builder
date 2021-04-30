@@ -1,0 +1,41 @@
+name: docker_images_builder
+
+on:
+  pull_request:
+  push:
+  schedule:
+    -cron: '0 0 * * 6'
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - debian-buster
+        image:
+          - iverlog
+          - coctb
+          - edalize
+          - riscv-toolchain
+          - yosys
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt update
+      - run: sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+      - run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      - run: sudo apt update
+      - run: sudo apt install -y docker-ce docker-ce-cli containerd.io
+      - run: docker build -t ghcr.io/antmicro/${{ matrix.os }}/${{ matrix.image }} . -f Dockerfile-${{ matrix.image }}
+      - name: Login to ghcr.io
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ghct.io
+          username: antmicro
+          passwaord: ${{ github.token }}
+      - run: docker push ghcr.io/antmicro/${{ matrix.os }}/${{ matrix.image }}
