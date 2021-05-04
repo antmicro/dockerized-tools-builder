@@ -22,6 +22,8 @@ jobs:
           - edalize
           - riscv-toolchain
           - yosys
+          - verilator
+          - fusesoc
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt update
