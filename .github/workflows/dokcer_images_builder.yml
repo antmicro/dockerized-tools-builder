@@ -17,15 +17,18 @@ jobs:
         os:
           - debian-buster
         image:
-          - iverilog
           - cocotb
+          - docker-in-docker
           - edalize
-          - riscv-toolchain
-          - yosys
-          - verilator
           - fusesoc
           - fusesoc-ibex
-          - docker-in-docker
+          - fusesoc-ibex-ecp5
+          - iverilog
+          - nextpnr-ecp5
+          - riscv-toolchain
+          - verilator
+          - yosys
+          - yosys-ibex-ecp5
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt update

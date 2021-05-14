@@ -1,0 +1,27 @@
+FROM debian:buster
+RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y \
+    build-essential \
+    clang cmake \
+    bison tclsh \
+    flex ant \
+    libreadline-dev default-jre \
+    gawk swig \
+    tcl-dev google-perftools \
+    libffi-dev libgoogle-perftools-dev\
+    git python3 python3-dev \
+    graphviz uuid uuid-dev \
+    xdot libfl-dev \
+    pkg-config \
+    libboost-system-dev \
+    libboost-python-dev \
+    libboost-filesystem-dev \
+    zlib1g-dev
+
+WORKDIR /tmp
+RUN git clone --branch uhdm-yosys https://github.com/antmicro/yosys.git yosys/
+RUN cd yosys && git submodule update --init --recursive && \
+    cd Surelog && make release install -j $(nproc) && cd .. && \
+    make -j$(nproc) config-gcc && make -j$(nproc) install
+
