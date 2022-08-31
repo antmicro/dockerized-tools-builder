@@ -1,6 +1,7 @@
 FROM debian:buster
 RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list
 RUN apt-get update
+RUN apt-get install -y libcrypt1
 RUN apt-get install -y \
     make \
     g++ \
