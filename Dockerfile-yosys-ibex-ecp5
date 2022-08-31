@@ -1,8 +1,7 @@
-FROM debian:buster
-RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y apt-utils
-RUN apt-get install -y \
+FROM debian:bullseye
+RUN apt update
+RUN apt install -y apt-utils
+RUN apt install -y \
     build-essential \
     clang cmake \
     bison tclsh \
